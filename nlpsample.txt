@@ -1,0 +1,40 @@
+import nltk
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.probability import FreqDist
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.tag import pos_tag
+
+# Download NLTK resources (if not downloaded)
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
+
+# Sample text
+text = '''
+Natural language processing (NLP) is a field of artificial intelligence 
+concerned with the interaction between computers and humans in natural language. 
+It enables computers to understand, interpret, and generate human language in 
+a valuable way.
+'''
+
+# Tokenization: Splitting the text into sentences and words
+sentences = sent_tokenize(text)
+words = word_tokenize(text)
+
+# Removing stopwords
+stop_words = set(stopwords.words('english'))
+filtered_words = [word for word in words if word.lower() not in stop_words]
+
+# Frequency distribution of words
+freq_dist = FreqDist(filtered_words)
+print("Most common words:", freq_dist.most_common(5))
+
+# Stemming: Reducing words to their word stem or root form
+stemmer = PorterStemmer()
+stemmed_words = [stemmer.stem(word) for word in filtered_words]
+print("Stemmed words:", stemmed_words)
+
+# Part-of-Speech tagging
+pos_tags = pos_tag(words)
+print("Part-of-Speech tags:", pos_tags)
